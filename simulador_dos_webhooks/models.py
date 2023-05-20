@@ -34,5 +34,5 @@ class Webhook(database.Model):
     valor = database.Column(database.Integer, default='-')
     forma_pagamento = database.Column(database.String, default='-')
     parcelas = database.Column(database.Integer, default='-')
-    data = database.Column(database.String, default=get_current_datetime())
+    data = database.Column(database.String, default=get_current_datetime)
     tratativa = database.Column(database.String, default='-')
