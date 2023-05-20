@@ -3,6 +3,7 @@ from simulador_dos_webhooks import app, database, bcrypt
 from simulador_dos_webhooks.forms import FormLogin, FormCriarConta, FormEditarPerfil
 from simulador_dos_webhooks.models import Usuario, Webhook
 from flask_login import login_user, logout_user, current_user, login_required
+from sqlalchemy import cast, String
 import json
 import pandas as pd
 import base64
@@ -30,13 +31,15 @@ def filter_webhooks():
     value = str(value).strip()
 
     if column and value:
-        webhooks = Webhook.query.filter(getattr(Webhook, column).ilike(f'%{value}%')).all()
+        if column == 'parcelas':
+            webhooks = Webhook.query.filter(cast(Webhook.parcelas, String).like(f'%{value}%')).all()
+        else:
+            webhooks = Webhook.query.filter(getattr(Webhook, column).like(f'%{value}%')).all()
     else:
         webhooks = Webhook.query.all()
 
     webhooks.reverse()
     return render_template('webhook.html', webhook_list=webhooks, filter_data=True)
-
 
 @app.route('/download-webhooks')
 @login_required
