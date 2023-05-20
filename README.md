@@ -9,7 +9,7 @@ url: https://simulador-dos-webhooks.up.railway.app/
 
 ## Finalidade do Projeto
 
-Este sistema tem o propósito de receber webhooks de outro sistema, registrar esses webhooks recebidos, também registrando a hora exata do recebimento (em formato pt-br/São_Paulo, Brasil) e realizar alguma ação dependendo do status de cada webhook.
+Este sistema tem o propósito de receber webhooks de outro sistema, registrar esses webhooks recebidos, também registrando a hora exata do recebimento (em timezone America/Sao_Paulo) e realizar alguma ação dependendo do status de cada webhook.
 
 O sistema é protegido por autenticação e exige um token de acesso. Primordialmente, o sistema contém uma página principal de exibição de todos os webhooks e o tratamento realizado para cada um desses webhooks. Além disso, o sistema faz um print internamente simulando o que deverá ser feito com cada usuário mediate ao status recebido por meio do webhook.
 
