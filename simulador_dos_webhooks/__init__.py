@@ -10,7 +10,11 @@ current_dir = os.path.abspath(os.path.dirname(__file__))
 database_uri = 'sqlite:///' + os.path.join(current_dir, 'webhook.db')
 
 app.config['SECRET_KEY'] = '38cebh8gfj61k6f06jb3f57421d530t1'
-app.config['SQLALCHEMY_DATABASE_URI'] = database_uri  # 'sqlite:///webhook.db'
+
+if os.getenv("DATABASE_URL"):
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = database_uri  # 'sqlite:///webhook.db'
 
 
 database = SQLAlchemy(app)
