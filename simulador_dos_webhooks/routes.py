@@ -28,7 +28,8 @@ def webhook():
 def filter_webhooks():
     column = request.args.get('column')
     value = request.args.get('value')
-
+    value = str(value).strip()
+    
     if column and value:
         webhooks = Webhook.query.filter(getattr(Webhook, column).ilike(f'%{value}%')).all()
     else:
