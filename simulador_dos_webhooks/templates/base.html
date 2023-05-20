@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
+
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/webhooksimulator.ico') }}">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+
+    {% block head %}
+    {% endblock %}
+
+    <style>
+        /* Chrome, Safari, Opera (Webkit Browsers) */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: #fff;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #C0C0C0;
+            border-radius: 10px;
+            border: 3px solid #fff;
+        }
+
+        /* Firefox */
+        scrollbar-color: #1e1f22 #c2c2c2b6;
+
+        /* IE e Edge */
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .col {
+            min-height: 100%;
+        }
+
+        header {
+            position: relative;
+        }
+
+        .header-section {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+
+        .header-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-image: url({{ url_for('static', filename='img/my-webhook-bot-transformed.jpeg') }});
+            background-size: cover;
+            background-position: center;
+            filter: brightness(65%);
+            z-index: -1;
+        }
+
+        .container-section {
+            display: flex;
+            flex-direction: column;
+            min-height: 95vh;
+        }
+    </style>
+</head>
+<body>
+    {% block body %}
+    {% endblock %}
+
+    <footer class="text-center text-lg-start bg-black" style="color: #ffffffcc;">
+        <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.83);">
+        © 2023 Copyright: <a class="text-reset fw-bold" href="https://github.com/Dhytm" target="_blank">Alisson Diniz da Silva</a>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+</body>
+</html>

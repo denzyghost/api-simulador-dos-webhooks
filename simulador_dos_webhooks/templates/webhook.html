@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Webhooks | Simulador de Webhooks
+{% endblock %}
+
+{% block head %}
+    <style>
+        h2 {
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+            text-align: left;
+            text-transform: uppercase;
+            margin-top: 40px;
+            margin-bottom: 20px;
+          }
+
+        .table tbody tr:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-control {
+            border-radius: 5px;
+        }
+
+        .btn-primary {
+            border-radius: 5px;
+            margin-right: 10px;
+          }
+    </style>
+{% endblock %}
+
+{% block body %}
+    {% include 'navbar.html' %}
+
+    <div class="container">
+        {% with mensagens = get_flashed_messages(with_categories=True) %}
+            {% if mensagens %}
+                {% for categoria, mensagem in mensagens %}
+                    <div class="alert {{ categoria }}">
+                        {{ mensagem }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <div class="container mt-3">
+        <h2 class="text-left">Respostas do Webhook</h2>
+        <div class="text-center">
+        <hr />
+      </div>
+    </div>
+
+    <form class="d-flex justify-content-center align-items-center mb-5" method="GET" action="{{ url_for('filter_webhooks') }}">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="column">Selecione a coluna:</label>
+            <select class="form-control" id="column" name="column">
+              <option value="nome">Nome</option>
+              <option value="email">E-mail</option>
+              <option value="status">Status</option>
+              <option value="valor">Valor</option>
+              <option value="forma_pagamento">Forma de pagamento</option>
+              <option value="parcelas">Parcelas</option>
+              <option value="data">Data</option>
+              <option value="tratativa">Tratativa</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="value">Digite o valor:</label>
+            <input type="text" class="form-control" id="value" name="value" required>
+          </div>
+        </div>
+      </div>
+
+      <div class="row justify-content-center" style="margin-top: 30px; margin-left: 1px;">
+        <div class="">
+          <button class="btn btn-outline-primary btn-block d-block" type="submit">Filtrar</button>
+        </div>
+      </div>
+
+       {% if filter_data %}
+      <div class="row justify-content-center" style="margin-top: 30px; margin-left: -40px; margin-right: 30px;">
+        <div class="col-md-6">
+          <a class="btn btn-outline-danger" href="{{ url_for('webhook') }}" style="width: 140px;">
+           Remover filtro
+          </a>
+        </div>
+      </div>
+     {% endif %}
+
+        <div class="justify-content-center" style="margin-top: 30px; margin-left: 75px;">
+        <div class="col-md-6">
+          <button class="btn btn-outline-dark" onclick="atualizarPagina()" style="width: 140px;">Atualizar tabela</button>
+        </div>
+      </div>
+
+        <div class="row justify-content-center" style="margin-top: 30px;">
+        <div class="col-md-6">
+            <a class="btn btn-outline-dark" href="{{ url_for('download_webhooks') }}" class="btn btn-primary" style="margin-left: -30px; width: 170px;">Baixar webhooks</a>
+        </div>
+      </div>
+    </form>
+
+    <div class="container mt-3 text-center">
+        <hr />
+    </div>
+
+    <table id="conteudo-atualizado" class="table table-striped table-bordered" style="width: 85%; margin: 0 auto;">
+      <thead>
+        <tr>
+          <th scope="col">Nome</th>
+          <th scope="col">E-mail</th>
+          <th scope="col">Status</th>
+          <th scope="col">Valor</th>
+          <th scope="col">Forma de pagamento</th>
+          <th scope="col">Parcelas</th>
+          <th scope="col">Data</th>
+          <th scope="col">Tratativa</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for webhook in webhook_list %}
+        <tr>
+          <td>{{ webhook.nome }}</td>
+          <td>{{ webhook.email }}</td>
+          <td>{{ webhook.status }}</td>
+          <td>{{ webhook.valor }}</td>
+          <td>{{ webhook.forma_pagamento }}</td>
+          <td>{{ webhook.parcelas }}</td>
+          <td>{{ webhook.data }}</td>
+          <td>{{ webhook.tratativa }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <hr />
+
+    <script>
+      function atualizarPagina() {
+        location.reload();
+      }
+    </script>
+{% endblock %}
