@@ -5,8 +5,7 @@ from simulador_dos_webhooks.models import Usuario, Webhook
 from flask_login import login_user, logout_user, current_user, login_required
 import json
 import pandas as pd
-import csv
-import io
+import base64
 
 
 @app.route('/')
@@ -29,7 +28,7 @@ def filter_webhooks():
     column = request.args.get('column')
     value = request.args.get('value')
     value = str(value).strip()
-    
+
     if column and value:
         webhooks = Webhook.query.filter(getattr(Webhook, column).ilike(f'%{value}%')).all()
     else:
@@ -42,6 +41,7 @@ def filter_webhooks():
 @app.route('/download-webhooks')
 @login_required
 def download_webhooks():
+
     webhook_list = Webhook.query.all()
     webhook_list.reverse()
 
@@ -51,13 +51,13 @@ def download_webhooks():
     if "_sa_instance_state" in list(df.columns):
         df = df.drop(columns=["_sa_instance_state"])
 
-    csv_stream = io.StringIO()
+    csv = df.to_csv(index=False, encoding="utf-8", errors="ignore", sep=";")
+    b64_encoded = base64.b64encode(csv.encode("iso-8859-1", "ignore")).decode("iso-8859-1")
 
-    df.to_csv(csv_stream, encoding="utf-8-sig", index=False, sep=";", quoting=csv.QUOTE_NONNUMERIC)
-
-    response = make_response(csv_stream.getvalue())
-    response.headers["Content-Disposition"] = "attachment; filename=webhooks.csv"
+    response = make_response(base64.b64decode(b64_encoded))
+    response.headers["Content-Disposition"] = "attachment; filename=webhook.csv"
     response.headers["Content-type"] = "text/csv"
+
     return response
 
 
@@ -104,7 +104,7 @@ def create_account():
     form_criarconta = FormCriarConta()
 
     if form_criarconta.validate_on_submit() and 'button_submit_create_acount' in request.form:
-        pass_cript = bcrypt.generate_password_hash(form_criarconta.password.data)
+        pass_cript = bcrypt.generate_password_hash(form_criarconta.password.data).decode("utf-8")
         usuario = Usuario(
             username=form_criarconta.username.data, email=form_criarconta.email.data,
             password=pass_cript, token=form_criarconta.token.data)
