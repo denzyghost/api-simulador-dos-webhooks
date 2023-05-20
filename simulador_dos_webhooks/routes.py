@@ -19,8 +19,7 @@ def home():
 def webhook():
     webhook_list = Webhook.query.all()
     webhook_list.reverse()
-
-    return render_template('webhook.html', webhook_list=webhook_list)
+    return render_template('webhook.html', webhook_list=webhook_list, amount_of_webhook=len(webhook_list))
 
 
 @app.route('/filter-webhooks', methods=['GET'])
