@@ -1,2 +1,2 @@
-# api-simulador-dos-webhooks
+# API simulador dos webhooks
 Este projeto consiste em um sistema receptor de webhooks.
