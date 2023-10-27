@@ -1,4 +1,4 @@
-<h1 align="center">API Simulador dos Webhooks</h1>
+<h1 align="center">API Simulador de Webhooks</h1>
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/108025321/239703028-0c14b0b7-5ed8-408b-810b-b385a56c7e94.jpg" alt="Project Logo" width="550" height="350">
